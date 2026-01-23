@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+          <link rel="stylesheet" href="/shared/navbar.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Living Animal Cell — Zoomable Organelle Simulation</title>
+  <link rel="stylesheet" href="./cell.css" />
+</head>
+<body>
+          <script src="/shared/navbar.js"></script>
+  <header class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <div>
+        <div class="title">Living Animal Cell</div>
+        <div class="subtitle">Click an organelle to zoom in. A “micro-sim” turns on as you focus.</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="btnHome" title="Reset view">Home</button>
+      <button id="btnBack" title="Back to previous view">Back</button>
+      <button id="btnToggle" title="Pause/Play">Pause</button>
+
+      <label class="speed">
+        Speed
+        <input id="speed" type="range" min="0.25" max="2.5" value="1" step="0.05" />
+        <span id="speedVal">1.00×</span>
+      </label>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="panel" id="infoPanel">
+      <div class="panel-title" id="panelTitle">Whole Cell</div>
+      <div class="panel-body" id="panelBody">
+        Click an organelle to zoom. You’ll see live activity appear when you focus.
+      </div>
+      <div class="panel-stats" id="panelStats"></div>
+      <div class="panel-hint">
+        Tip: While zoomed, click the background to stay focused, or press <b>Home</b> to reset.
+      </div>
+    </div>
+
+    <svg
+      id="cellSvg"
+      viewBox="0 0 1000 650"
+      class="cell-svg"
+      role="img"
+      aria-label="Interactive living animal cell simulation"
+    >
+      <!-- Background -->
+      <defs>
+        <radialGradient id="bgGrad" cx="50%" cy="45%" r="70%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.06)" />
+          <stop offset="100%" stop-color="rgba(255,255,255,0.00)" />
+        </radialGradient>
+
+        <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feColorMatrix in="blur" type="matrix"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 0.6 0" result="glow"/>
+          <feMerge>
+            <feMergeNode in="glow"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+
+        <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.35)" />
+        </filter>
+      </defs>
+
+      <rect x="0" y="0" width="1000" height="650" fill="url(#bgGrad)"></rect>
+
+      <!-- Cytoplasm field (subtle flow) -->
+      <g id="cytoField" opacity="0.9"></g>
+
+      <!-- Cell membrane -->
+      <g id="membrane" filter="url(#shadow)">
+        <path
+          id="cellBoundary"
+          d="M130,330 C110,210 220,105 360,85 C460,45 570,55 660,100 C800,130 900,255 875,380 C850,520 720,590 570,590 C410,615 200,540 155,435 C140,400 136,370 130,330 Z"
+          class="membrane"
+        />
+        <path
+          d="M155,330 C140,220 235,130 365,110 C455,75 560,85 645,125 C770,155 860,260 840,375 C820,495 705,555 570,560 C420,585 235,520 190,435 C175,405 165,365 155,330 Z"
+          class="membrane-inner"
+          opacity="0.45"
+        />
+      </g>
+
+      <!-- Organelles layer -->
+      <g id="organelles">
+
+        <!-- Nucleus -->
+        <g class="organelle" data-organelle="nucleus">
+          <ellipse cx="445" cy="320" rx="120" ry="95" class="nucleus" />
+          <ellipse cx="445" cy="320" rx="68" ry="52" class="nucleolus" />
+          <path d="M370,305 C395,270 420,350 455,300 C485,255 515,350 535,310"
+                class="chromatin" />
+          <text x="445" y="430" text-anchor="middle" class="label">Nucleus</text>
+
+          <!-- Micro detail: DNA strand (shown on focus) -->
+          <g class="detail" data-detail="nucleus">
+            <path d="M380,315 C410,260 450,390 510,300 C555,235 600,380 615,320"
+                  class="dna" />
+            <path d="M385,335 C420,280 450,420 520,320 C560,265 595,400 610,340"
+                  class="dna" opacity="0.6" />
+          </g>
+        </g>
+
+        <!-- Mitochondria -->
+        <g class="organelle" data-organelle="mito1">
+          <path d="M635,355 C685,330 730,360 740,395 C750,430 715,462 665,458 C615,455 590,380 635,355 Z"
+                class="mito" />
+          <path
+  d="M640,390 C665,370 690,420 715,385 C728,368 738,410 728,425"
+  class="cristae focus-target"
+  data-focus="mito1_cristae"
+/>
+
+          <text x="665" y="500" text-anchor="middle" class="label">Mitochondrion</text>
+
+          <g class="detail" data-detail="mito1">
+            <path d="M635,395 C660,360 700,440 735,392" class="cristae" opacity="0.9"/>
+            <path d="M635,410 C665,380 700,455 738,408" class="cristae" opacity="0.65"/>
+          </g>
+        </g>
+
+        <g class="organelle" data-organelle="mito2">
+          <path d="M250,420 C285,390 345,395 360,430 C375,465 330,500 275,495 C220,490 215,455 250,420 Z"
+                class="mito" opacity="0.95"/>
+          <path d="M255,452 C280,430 300,485 325,450 C338,432 355,470 340,485"
+                class="cristae" />
+          <text x="285" y="545" text-anchor="middle" class="label">Mitochondrion</text>
+
+          <g class="detail" data-detail="mito2">
+            <path d="M252,460 C282,420 320,510 360,452" class="cristae" opacity="0.9"/>
+            <path d="M252,475 C285,445 320,525 360,470" class="cristae" opacity="0.65"/>
+          </g>
+        </g>
+
+        <!-- Golgi -->
+        <g class="organelle" data-organelle="golgi">
+          <path d="M510,200 C555,175 610,185 642,215" class="golgi" />
+          <path d="M500,230 C545,205 610,215 650,245" class="golgi" opacity="0.85"/>
+          <path d="M495,260 C540,240 615,245 655,275" class="golgi" opacity="0.7"/>
+          <circle cx="655" cy="280" r="8" class="vesicle" />
+          <circle cx="675" cy="255" r="6" class="vesicle" opacity="0.75"/>
+          <text x="575" y="165" text-anchor="middle" class="label">Golgi</text>
+
+          <g class="detail" data-detail="golgi">
+            <circle cx="695" cy="265" r="7" class="vesicle" opacity="0.9"/>
+            <circle cx="680" cy="295" r="6" class="vesicle" opacity="0.7"/>
+          </g>
+        </g>
+
+        <!-- Rough ER -->
+        <g class="organelle" data-organelle="rer">
+          <path d="M355,205 C320,175 285,195 265,215 C240,240 255,270 290,280"
+                class="er" />
+          <path d="M380,235 C345,205 305,215 285,240 C265,265 285,295 320,300"
+                class="er" opacity="0.85"/>
+          <path d="M405,265 C370,235 330,245 310,270 C290,295 310,325 345,330"
+                class="er" opacity="0.7"/>
+          <!-- ribosomes -->
+          <g class="ribos">
+            <circle cx="285" cy="220" r="4" class="ribosome"/>
+            <circle cx="305" cy="200" r="3.6" class="ribosome"/>
+            <circle cx="325" cy="240" r="4" class="ribosome"/>
+            <circle cx="350" cy="215" r="3.6" class="ribosome"/>
+            <circle cx="315" cy="285" r="4" class="ribosome"/>
+            <circle cx="340" cy="295" r="3.6" class="ribosome"/>
+          </g>
+          <text x="320" y="165" text-anchor="middle" class="label">Rough ER</text>
+
+          <g class="detail" data-detail="rer">
+            <circle cx="370" cy="240" r="4" class="ribosome" opacity="0.95"/>
+            <circle cx="395" cy="260" r="4" class="ribosome" opacity="0.85"/>
+            <circle cx="360" cy="310" r="4" class="ribosome" opacity="0.75"/>
+          </g>
+        </g>
+
+        <!-- Lysosome -->
+        <g class="organelle" data-organelle="lyso">
+          <circle cx="720" cy="285" r="28" class="lyso"/>
+          <path d="M705,285 C715,270 725,295 735,280" class="lyso-swirl"/>
+          <text x="720" y="340" text-anchor="middle" class="label">Lysosome</text>
+
+          <g class="detail" data-detail="lyso">
+            <path d="M708,295 C718,280 726,305 738,292" class="lyso-swirl" opacity="0.8"/>
+          </g>
+        </g>
+
+      </g>
+
+      <!-- Live particles layer (spawned/updated by JS) -->
+      <g id="particles"></g>
+
+      <!-- Click catcher (helps with “click background” behaviors if you want later) -->
+      <rect x="0" y="0" width="1000" height="650" fill="transparent" pointer-events="none"></rect>
+    </svg>
+  </main>
+
+  <script src="./cell.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <link rel="stylesheet" href="/shared/navbar.css">
+    <meta charset="utf-8" />
+    <title>Artery Flow — Cell Simulation (2D)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+      <script src="/shared/navbar.js"></script>
+    <main>
+      <div id="ui" aria-label="Simulation Controls">
+        <div class="row">
+          <button id="pauseBtn">Pause</button>
+          <button id="resetBtn">Reset</button>
+
+          <label class="inline">
+            Speed
+            <input id="speed" type="range" min="0" max="4" step="0.01" value="1" />
+          </label>
+
+          <label class="inline">
+            Pulsatile
+            <input id="pulsatile" type="checkbox" />
+          </label>
+
+          <label class="inline">
+            Pulses/min
+            <input id="bpm" type="number" min="20" max="220" value="72" />
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="inline">
+            RBC
+            <input id="rbcCount" type="number" min="0" max="4000" value="200" />
+          </label>
+          <label class="inline">
+            WBC
+            <input id="wbcCount" type="number" min="0" max="400" value="35" />
+          </label>
+          <label class="inline">
+            Platelets
+            <input id="pltCount" type="number" min="0" max="8000" value="150" />
+          </label>
+          <label class="inline">
+            Neutrophils
+            <input id="neuCount" type="number" min="0" max="200" value="20" />
+            </label>
+
+            <label class="inline">
+            Lymphocytes
+            <input id="lymCount" type="number" min="0" max="200" value="15" />
+            </label>
+
+            <label class="inline">
+            Monocytes
+            <input id="monoCount" type="number" min="0" max="100" value="8" />
+            </label>
+
+            <label class="inline">
+            Tumor Cells
+            <input id="ctcCount" type="number" min="0" max="50" value="3" />
+            </label>
+
+
+          <button id="applyCountsBtn">Apply Counts</button>
+        </div>
+
+        <div class="row">
+          <label class="inline">
+            Collision (crowding)
+            <input id="collide" type="range" min="0" max="1" step="0.01" value="0.35" />
+          </label>
+
+          <label class="inline">
+            Margination
+            <input id="margination" type="range" min="0" max="1" step="0.01" value="0.35" />
+          </label>
+
+          <label class="inline">
+            Brownian
+            <input id="brownian" type="range" min="0" max="2" step="0.01" value="0.15" />
+          </label>
+
+          <label class="inline">
+            Use spatial hash
+            <input id="spatialHash" type="checkbox" checked />
+          </label>
+        </div>
+
+        <div class="row legend">
+            <span class="swatch rbc"></span> RBC
+            <span class="swatch plt"></span> Platelet
+
+            <span class="swatch neu"></span> Neutrophil
+            <span class="swatch lym"></span> Lymphocyte
+            <span class="swatch mono"></span> Monocyte
+            <span class="swatch ctc"></span> Tumor Cell
+
+            <span class="hint">Tip: drag mouse to inject a swirl / disturbance</span>
+        </div>
+      </div>
+    </main>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>

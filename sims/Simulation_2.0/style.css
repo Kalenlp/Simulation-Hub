@@ -1,0 +1,97 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0b0f14;
+  color: #e8eef7;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+main {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+#ui {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(18, 24, 33, 0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+  backdrop-filter: blur(8px);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.inline {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+input[type="range"] {
+  width: 160px;
+}
+
+input[type="number"] {
+  width: 80px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e8eef7;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+button {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e8eef7;
+  border-radius: 10px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(255,255,255,0.16);
+}
+
+.legend {
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 3px;
+  margin: 0 6px 0 12px;
+  vertical-align: middle;
+}
+.swatch.rbc { background: #e74c3c; }
+.swatch.wbc { background: #f3f3ff; }
+.swatch.plt { background: #f1c40f; }
+.swatch.neu  { background: rgb(210, 210, 255); }  /* Neutrophil */
+.swatch.lym  { background: rgb(180, 200, 255); }  /* Lymphocyte */
+.swatch.mono { background: rgb(160, 180, 220); }  /* Monocyte */
+.swatch.ctc  { background: rgb(180, 80, 200); }   /* Tumor / disease cell */
+
+
+.hint {
+  margin-left: auto;
+  opacity: 0.75;
+  font-size: 12px;
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulation Hub</title>
+
+  <link rel="stylesheet" href="/shared/navbar.css">
+
+  <style>
+    body {
+      margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f6f7f9;
+  color: #111;
+  position: relative;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 3rem 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #444;
+    }
+
+    .hero {
+      margin-bottom: 3rem;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .sim-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .sim-card h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .sim-card p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .sim-card a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #0066cc;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("./fractal.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.25; /* adjust this (0.05–0.12 is the sweet spot) */
+  z-index: -1;
+}
+
+  </style>
+</head>
+
+<body>
+  <script src="/shared/navbar.js"></script>
+
+  <div class="container">
+
+    <!-- HERO / MISSION -->
+    <section class="hero">
+      <h1>Simulation Hub</h1>
+      <p>
+        A growing collection of interactive simulations designed to explore
+        physical, biological, and mathematical systems through experimentation
+        and visualization.
+      </p>
+    </section>
+
+    <!-- ABOUT -->
+    <section>
+      <h2>Project Mission</h2>
+      <p>
+        This site serves as a centralized workspace for building and testing
+        simulation-based models. The emphasis is on understanding system behavior
+        through direct manipulation of parameters rather than static analysis.
+      </p>
+    </section>
+
+    <!-- SIMULATIONS -->
+    <section>
+      <h2>Available Simulations</h2>
+
+      <div class="sim-grid">
+
+
+        <div class="sim-card">
+          <h3>Cell system feeding simulation</h3>
+          <p>
+            Interactive model exploring core system dynamics and parameter
+            sensitivity.
+          </p>
+          <a href="./sims/Simulation_1.0/">Open Simulation →</a>
+        </div>
+
+
+        <div class="sim-card">
+          <h3>Arterial Flow with ML tumor</h3>
+          <p>
+            Follow-up model extending the system with additional variables
+            and behaviors.
+          </p>
+          <a href="./sims/Simulation_2.0/">Open Simulation →</a>
+        </div>
+
+
+        <div class="sim-card">
+          <h3>Full Eukaryotic Cell Simulation</h3>
+          <p>
+            Follow-up model extending the system with additional variables
+            and behaviors.
+          </p>
+          <a href="./sims/Simulation_3.0/">Open Simulation →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section>
+      <h2>Notes</h2>
+      <p>
+        This hub is intended for local development and iterative expansion.
+        New simulations will be added as separate modules under the same
+        structure.
+      </p>
+    </section>
+
+    <footer>
+      <p>Local development build · Simulation Hub</p>
+    </footer>
+
+  </div>
+</body>
+</html>
+
